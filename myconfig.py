@@ -86,7 +86,10 @@ class MyConfig (MyLog):
                    param3 =     self.ReadValue(key, section="ShutterIntermediatePositions", return_type=int)
                    if (param3 != None) and ((param3 < 0) or (param3 > 100)):
                        param3  = None
-                   self.Shutters[key] = {'name': param1[0], 'code': param2, 'duration': int(param1[2]), 'intermediatePosition': param3}
+                   # If only one duration is specified, use it for both down and up durations.
+                   if len (param1) < 4:
+                      param1.append(param1[2])
+                   self.Shutters[key] = {'name': param1[0], 'code': param2, 'durationDown': int(param1[2]), 'durationUp': int(param1[3]), 'intermediatePosition': param3}
                    self.ShuttersByName[param1[0]] = key
             except Exception as e1:
                 self.LogErrorLine("Missing config file or config file entries in Section Shutters for key "+key+": " + str(e1))

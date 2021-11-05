@@ -128,13 +128,13 @@ class MQTT(threading.Thread, MyLog):
             self.connected_flag=False
             
     def on_disconnect(self, client, userdata, rc=0):
+        self.connected_flag=False
         if rc != 0:
             self.LogInfo("Disconnected from MQTT Server. result code: " + str(rc))
-            self.connected_flag=False
-            while not self.connected_flag: #wait in loop
-                self.LogInfo("Waiting 30sec for reconnect")
-                time.sleep(30)
-                self.t.connect(self.config.MQTT_Server,self.config.MQTT_Port)
+            #while not self.connected_flag: #wait in loop
+            #    self.LogInfo("Waiting 30sec for reconnect")
+            #    time.sleep(30)
+            #    self.t.connect(self.config.MQTT_Server,self.config.MQTT_Port)
 
             
     def set_state(self, shutterId, level):
@@ -177,9 +177,9 @@ class MQTT(threading.Thread, MyLog):
                 self.t.loop(timeout=30)
                 # self.t.loop_start()
                 if self.connected_flag == False:
-                    time.sleep(10)
                     self.LogInfo("Re-Connecting to MQTT server")
                     self.t.connect(self.config.MQTT_Server,self.config.MQTT_Port)
+                    time.sleep(10)
             except Exception as e:
                 error += 1
                 self.LogInfo("Critical exception " + str(error) + ": "+ str(e.args))

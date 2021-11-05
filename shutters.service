@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 User=pi
-ExecStart=sudo /usr/bin/python3 /home/pi/Pi-Somfy/operateShutters.py -c /home/pi/Pi-Somfy/operateShutters.conf -a -e -m
+ExecStart=sudo /usr/bin/python3 /home/adamstehlik/Pi-Somfy/operateShutters.py -c /home/adamstehlik/Pi-Somfy/operateShutters.conf -a -e -m
 Environment=PYTHONUNBUFFERED=1
 Restart=on-failure
 Type=exec
